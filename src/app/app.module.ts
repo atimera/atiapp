@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { AuthenticationService } from './service/authentication.service';
 import { UserService } from './service/user.service';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { AuthenticationGuard } from './guard/authentication.guard';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
   ],
   providers: [
     AuthenticationService, 
-    UserService, 
+    UserService,
+    AuthenticationGuard, 
     // on aurait pu ne pas inclure les services dans les profiders grâce au providedIn: 'root' qu'ils ont injecté.
     // MAIS ceci n'est pas fait dans les interceptors, donc on est obligé de les inclures ICI.
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

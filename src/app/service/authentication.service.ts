@@ -92,7 +92,7 @@ export class AuthenticationService {
    * Utilise la librairie Auth0 pour décoder le token et determiner si l'utilisateur est connecté
    * @returns true si l'utilisateur est connecté, fals sinon
    */
-  public isLoggedIn(): boolean {
+  public isUserLoggedIn(): boolean {
     this.loadToken();
     if (this.token != null || this.token !== '' || this.token) {
       // @ts-ignore

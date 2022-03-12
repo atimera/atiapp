@@ -24,10 +24,10 @@ export class AuthInterceptor implements HttpInterceptor {
     if(httpRequest.url.includes(`${this.authenticationService.host}/user/reset-password`)) {
       return httpHandler.handle(httpRequest);
     }
-    // On clone la request car, immuable avant de lui passer les headers
+    // On clone la request car, immuable avant de lui passer les headers et le retourner
     this.authenticationService.loadToken();
     const token = this.authenticationService.getToken();
-    const resquest = httpRequest.clone({ setHeaders: { Authentication: `Bearer ${token}` }});
-    return httpHandler.handle(httpRequest);
+    const resquest = httpRequest.clone({ setHeaders: { Authorization: `Bearer ${token}` }});
+    return httpHandler.handle(resquest);
   }
 }

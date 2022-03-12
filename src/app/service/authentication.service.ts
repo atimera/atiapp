@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../model/user';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class AuthenticationService {
   private host = environment.apiUrl;
   private token: string | null;
   private loggedInUsername: string | null;
+  private jwtHelper = new JwtHelperService();
   constructor(private http: HttpClient) { }
 
   /**
@@ -85,5 +87,25 @@ export class AuthenticationService {
     return this.token;
   }
 
-  
+  /**
+   * Utilise la librairie Auth0 pour décoder le token et determiner si l'utilisateur est connecté
+   * @returns true si l'utilisateur est connecté, fals sinon
+   */
+  public isLoggedIn(): boolean {
+    this.loadToken();
+    if (this.token != null || this.token !== '' || this.token) {
+      // @ts-ignore
+      if (this.jwtHelper.decodeToken(this.token).sub != null || '' ) {
+        // @ts-ignore
+        if (!this.jwtHelper.isTokenExpired(this.token)) {
+          // @ts-ignore
+          this.loggedInUsername = this.jwtHelper.decodeToken(this.token).sub;
+          return true;
+        }
+      }
+    }
+    this.logOut();
+    return false;
+  }
+
 }

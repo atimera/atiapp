@@ -13,6 +13,7 @@ export class AuthenticationService {
   private token: string | null;
   private loggedInUsername: string | null;
   private jwtHelper = new JwtHelperService();
+
   constructor(private http: HttpClient) { }
 
   /**
@@ -30,8 +31,8 @@ export class AuthenticationService {
    * @param user l'utilisateur
    * @returns un observable de User ou de HttpErrorResponse
    */
-  public register(user: User): Observable<User | HttpErrorResponse> {
-    return this.http.post<User | HttpErrorResponse>(`${this.host}/user/register`, user, {observe: 'response'});
+  public register(user: User): Observable<HttpResponse<User> | HttpErrorResponse> {
+    return this.http.post<User>(`${this.host}/user/register`, user, {observe: 'response'});
   }
 
   /**

@@ -1,1 +1,94 @@
-<p>register works!</p>
+
+<br />
+<br />
+<div class="container">
+<!-- class="row justify-content-center" -->
+  <div class="row justify-content-center">
+      <!-- class="col-md-6" -->
+    <div class="col-md-6">
+        <!-- class="card-group mb-0" -->
+      <div>
+
+        <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm.value)" >
+          <div class="card p-d">
+            <div class="card-body">
+              <h1>Inscription</h1>
+            <p class="text-muted">Saisissez vos information pour créer un nouveau compte. 
+                <br />Si vou avez déjà un compte <a routerLink="/login">Connectez-vous</a></p>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                    <input type="text" name="firstName" class="form-control" placeholder="Prénom" 
+                        ngModel #firstNameInput="ngModel" required/>
+                    </div>
+                    <span class="text-danger" *ngIf="firstNameInput.touched && firstNameInput.invalid">Veuillez saisir votre prénom</span>
+                </div>
+                    <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-signature"></i></span>
+                    <input type="text" name="lastName" class="form-control" placeholder="Nom" 
+                        ngModel #lastNameInput="ngModel" required/>
+                    </div>
+                    <span class="text-danger" *ngIf="lastNameInput.touched && lastNameInput.invalid">Veuillez saisir votre nom de famille</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-id-card"></i></span>
+                        <input type="text" name="username" class="form-control" placeholder="Pseudo" 
+                            ngModel #usernameInput="ngModel" required/>
+                    </div>
+                    <span class="text-danger" *ngIf="usernameInput.touched && usernameInput.invalid">Veuillez saisir votre Identifiant</span>
+                </div>
+                    <div class="col-md-6 mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="email" name="email" class="form-control" placeholder="exemple@email.com" 
+                            ngModel #emailInput="ngModel" required email/>
+                    </div>
+                    <span class="text-danger" *ngIf="emailInput.touched && emailInput.invalid">Veuillez saisir une adresse email valide</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" name="password" class="form-control" placeholder="Mot de passe" 
+                            ngModel #passwordInput="ngModel" required/>
+                    </div>
+                    <span class="text-danger" *ngIf="passwordInput.touched && passwordInput.invalid">Veuillez saisir un mot de passe</span>
+                </div>
+                
+                 <div class="col-md-6 mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+                        <input type="password" name="confirmedPassword" class="form-control" placeholder="Confirmation mot de passe" 
+                            ngModel #confirmedPwdInput="ngModel" required/>
+                    </div>
+                    <!-- TODO: validation mot de passe -->
+                    <span class="text-danger" *ngIf="confirmedPwdInput.touched && confirmedPwdInput.invalid">Veuillez confirmer votre mot de passe</span>
+                </div>
+            </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary px-3" [disabled]="registerForm.invalid || showLoading">
+                    <i class="fas fa-spinner fa-spin" *ngIf="showLoading"></i>
+                    <span *ngIf="showLoading">Inscription...</span>
+                    <span *ngIf="!showLoading">S'inscrire</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

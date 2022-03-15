@@ -1,38 +1,41 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../model/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { CustomHttpResponse } from '../model/custom-http-response';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root',})
 export class AuthenticationService {
   public host = environment.apiUrl;
   private token: string | null;
   private loggedInUsername: string | null;
   private jwtHelper = new JwtHelperService();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Connexion de l'tuilisateur
    * @param user l'utilisateur
-   * @returns un obervable de HttpResponse ou de HttpErrorResponse
+   * @returns un obervable de CustomHttpResponse ou de HttpErrorResponse
    */
-  public login(user: User): Observable<HttpResponse<any> | HttpErrorResponse> {
+  public login(user: User): Observable<HttpResponse<CustomHttpResponse>> {
     // {obeserve: 'response'} est une option permettant de récuperer toute la réponse y compris les headers
-    return this.http.post<HttpResponse<any> | HttpErrorResponse>(`${this.host}/user/login`, user, {observe: 'response'});
+    return this.http.post<CustomHttpResponse>(`${this.host}/user/login`, user, {
+      observe: 'response',
+    });
   }
 
   /**
    * Inscription d'un utilisateur
    * @param user l'utilisateur
-   * @returns un observable de User ou de HttpErrorResponse
+   * @returns un observable de CustomHttpResponse ou de HttpErrorResponse
    */
-  public register(user: User): Observable<HttpResponse<User> | HttpErrorResponse> {
-    return this.http.post<User>(`${this.host}/user/register`, user, {observe: 'response'});
+  public register(user: User): Observable<HttpResponse<CustomHttpResponse>> {
+    return this.http.post<CustomHttpResponse>(`${this.host}/user/register`, user, {
+      observe: 'response',
+    });
   }
 
   /**
@@ -46,7 +49,6 @@ export class AuthenticationService {
     localStorage.removeItem('users');
   }
 
-
   /**
    * Enregistre le token de l'utilisateur dans le localStorage
    * @param token le jwt token
@@ -55,7 +57,7 @@ export class AuthenticationService {
     this.token = token;
     localStorage.setItem('token', token);
   }
-  
+
   /**
    * Rend l'objet User en string avant de l'enregistrer dans le cache localStorage
    * @param user l'objet user
@@ -63,7 +65,7 @@ export class AuthenticationService {
   public addUserToLocalCache(user: User): void {
     localStorage.setItem('user', JSON.stringify(user));
   }
-  
+
   /**
    * Essaie de récupérer l'objet User depuis le cache
    * @returns l'objet User ou null
@@ -72,7 +74,7 @@ export class AuthenticationService {
     const stringUser = localStorage.getItem('user');
     return stringUser ? JSON.parse(stringUser) : null;
   }
-  
+
   /**
    * Récupère le token depuis le cache
    */
@@ -94,9 +96,10 @@ export class AuthenticationService {
    */
   public isUserLoggedIn(): boolean {
     this.loadToken();
-    if (this.token != null || this.token !== '' || this.token) {
+    if (this.token != null && this.token !== '' && this.token) {
+      console.log(this.token)
       // @ts-ignore
-      if (this.jwtHelper.decodeToken(this.token).sub != null || '' ) {
+      if (this.jwtHelper.decodeToken(this.token).sub != null && '') {
         // @ts-ignore
         if (!this.jwtHelper.isTokenExpired(this.token)) {
           // @ts-ignore
@@ -108,5 +111,4 @@ export class AuthenticationService {
     this.logOut();
     return false;
   }
-
 }

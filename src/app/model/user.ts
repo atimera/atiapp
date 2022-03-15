@@ -5,6 +5,7 @@ export class User {
     public lastName: string;
     public username: string;
     public email: string;
+    public password: string;
     public logInDateDisplay: Date;
     public joinDate: Date;
     public profileImageUrl: string;
@@ -18,6 +19,7 @@ export class User {
         this.lastName = '';
         this.username = '';
         this.email = '';
+        this.password = '';
         this.active = false;
         this.notLocked = false;
         this.role = '';

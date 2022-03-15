@@ -1,1 +1,69 @@
-<p>login works!</p>
+<br />
+<br />
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card-group mb-0">
+
+        <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)" >
+          <div class="card p-d">
+            <div class="card-body">
+              <h1>Connexion</h1>
+              <p class="text-muted">Connectez-vous à votre compte</p>
+
+              <div class="mb-3">
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fa fa-user"></i></span>
+                  <input type="text" name="username" class="form-control" placeholder="Identifiant" 
+                  ngModel #usernameInput="ngModel" required/>
+                </div>
+                <span class="text-danger" *ngIf="usernameInput.touched && usernameInput.invalid">Veuillez saisir votre Identifiant</span>
+              </div>
+
+              <div class="mb-4">
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                  <input type="password" name="password" class="form-control" placeholder="Mot de passe"  
+                  ngModel #passwordInput="ngModel" required/>
+                </div>
+                <span class="text-danger" *ngIf="passwordInput.touched && passwordInput.invalid">Veuillez saisir votre mot de passe</span>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <button type="submit" class="btn btn-primary px-3" [disabled]="showLoading || loginForm.invalid">
+                    <i class="fas fa-spinner fa-spin" *ngIf="showLoading"></i>
+                    <span *ngIf="showLoading">Connexion...</span>
+                    <span *ngIf="!showLoading">Se connecter</span>
+                  </button>
+                </div>
+                <div class="col-6 text-right">
+                  <button type="button" class="btn btn-link px-0">
+                    Mot de passe oublié?
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+       <div class="card text-white bg-primary py-4 d-md-down-none">
+          <div class="card-body text-center">
+            <div>
+              <h2>S'inscrire</h2>
+              <p>
+                Si vous n'avez pas encore de compte, vous pouvez vous inscrire
+                en cliquant sur le bouton ci-dessous.
+              </p>
+              <button type="button" class="btn btn-primary active mt-3" routerLink='/register'>
+                S'inscrire maintenant!
+              </button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,8 +10,3 @@
 
 /* Angular notification */
 @import url('~angular-notifier/styles');
-
-*{
-    margin: 0;
-    padding: 0;
-}
